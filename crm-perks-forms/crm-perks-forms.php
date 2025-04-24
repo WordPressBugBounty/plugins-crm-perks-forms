@@ -2,16 +2,15 @@
 /**
 * Plugin Name: CRM Perks Forms
 * Description: Create beautiful contact forms , popups with floating buttons.
-* Version: 1.1.6
+* Version: 1.1.7
 * Requires at least: 3.8
-* Tested up to: 6.5
 * Author URI: https://www.crmperks.com
 * Plugin URI: https://www.crmperks.com/plugins/contact-form-plugins/crm-perks-forms/
 * Author: CRM Perks
 */
 
 class cfx_form {
-    public static $version='1.1.6';
+    public static $version='1.1.7';
     public static $page='cfx-form';
     public static $id='cfx_form';
     public static $upload_folder = 'crm_perks_uploads';

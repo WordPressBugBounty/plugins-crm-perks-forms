@@ -921,7 +921,8 @@ echo $this->show_form($form['id']);
 //-------
 if(!empty(self::$captcha_js)){
   $meta=cfx_form::get_meta();
-  wp_enqueue_script( 'recaptcha','https://www.google.com/recaptcha/api.js?onload=cfx_cap_loaded&render='.self::$captcha_js, array(), false );  
+ // wp_enqueue_script( 'recaptcha','https://www.google.com/recaptcha/api.js?onload=cfx_cap_loaded&render='.self::$captcha_js, array(), false );  //v3
+  wp_enqueue_script( 'recaptcha','https://www.google.com/recaptcha/api.js?onload=cfx_cap_loaded_v2&render=explicit', array(), false );  //v2
 } 
 }
 public function add_form_footer_js(){
@@ -1225,7 +1226,12 @@ form.removeClass('cfx_process');
     form.find('.cfx_alert_block').remove();
     form.find('.cfx_msg_div').hide();
 var reset_btn=true;
-cfx_cap_loaded(); 
+//cfx_cap_loaded(); //v3 cap
+ /////v2 
+ if(typeof grecaptcha !="undefined"){
+    var cap_id=form.find('.vx_google_cap').attr('data-id');
+   try{ grecaptcha.reset(cap_id);}catch(e){}
+  }
    /// jQuery(".crm_alert").hide();
     var re={};
     try{re=jQuery.parseJSON(res);}catch(e){};
@@ -1614,12 +1620,19 @@ var expires = "expires="+d.toGMTString();
 document.cookie = cname + "=" + cvalue + "; " + expires+ "; path=/";
 } 
 
+function cfx_cap_loaded_v2(){
+    if(typeof grecaptcha !="undefined"){
+    jQuery(".vx_google_cap").each(function(){ 
+    var i=grecaptcha.render(this, {'sitekey' : jQuery(this).attr('data-sitekey'),'theme' : 'light'});    
+  jQuery(this).attr('data-id',i);
+    }); }
+}
 function cfx_cap_loaded(cap_loaded){ 
     if(typeof grecaptcha !="undefined" && jQuery(".vx_google_cap").length){
    //     grecaptcha.ready(function() {
       grecaptcha.execute('<?php echo self::$captcha_js ?>', {action: 'homepage'}).then(function(token) {
           jQuery(".vx_google_cap").val(token); 
-          if(typeof cap_loaded == 'function'){
+          if(typeof cap_loaded == 'function'){ 
               cap_loaded(token);
           }
       });
@@ -2664,7 +2677,12 @@ $str=cfx_form::field_str($v,$form);
       if($v['captcha_type'] == "google"){
         $global_api=cfx_form::get_meta(false);
         self::$captcha_js=!empty($global_api['google_public']) ? $global_api['google_public'] : ''; 
-        $str='<input type="hidden" name="g-recaptcha-response" class="vx_google_cap">';
+        $inv='';
+        if(!empty($global_api['google_type']) && $global_api['google_type'] == 'v2_inv'){
+          $inv='data-size="invisible"';  
+        }
+        $str='<div class="vx_google_cap" data-sitekey="'.esc_attr(self::$captcha_js).'" '.$inv.'  id="google_cap_'.esc_attr($form_id).'"></div>'; //v2  
+        //$str='<input type="hidden" name="g-recaptcha-response" class="g-recaptcha" data-sitekey="'.self::$captcha_js.'">'; //class="vx_google_cap" v3
 //   wp_enqueue_script( 'cfx-front-captcha' );
       }else{
 $str='<div class="vx_custom_captcha"><img src="'.cfx_form_plugin_url.'images/captcha.php'.'" style="border: 0px solid #ccc; display:inline-block; vertical-align: middle;"><span href="#" class="cfx_refresh_cap">Refresh</span></div><input style="width: 100%;" placeholder="Enter Above Text" type="text" class="text captcha_input cfx_input" id="captcha_input" name="captcha" required="required">';
@@ -2839,6 +2857,7 @@ $google=array("response"=>cfx_form::post('g-recaptcha-response'),"remoteip"=>$_S
     $path="https://www.google.com/recaptcha/api/siteverify";
     $google_response = "true success";
    $google_response=cfx_form::get_contents_curl($path,"post",$google);
+   $google_response=apply_filters('crmperks_forms_google_captcha_response',$google_response,$form_id);
   // var_dump($google_response); 
      if(!preg_match("/true/",$google_response)){
   $response=array("status"=>"error","msg"=>"There was an error trying to send your message. Please try again later.","response"=>$google_response); 

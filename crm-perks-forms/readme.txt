@@ -2,9 +2,9 @@
 Contributors: crmperks, sbazzi
 Tags: contact form, form builder, best form builder, free form builder, visual form builder
 Requires at least: 3.8
-Tested up to: 6.5
-Stable tag: 1.1.6
-Version: 1.1.6
+Tested up to: 6.8
+Stable tag: 1.1.7
+Version: 1.1.7
 Requires PHP: 5.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -223,6 +223,9 @@ You can easily move your forms created in contact form 7 to CRM Perks forms usin
 
 
 == Changelog ==
+
+= 1.1.7 =
+* added "filter for google captcha response" feature.
 
 = 1.1.6 =
 * fixed "show forms to logged in user" issue.

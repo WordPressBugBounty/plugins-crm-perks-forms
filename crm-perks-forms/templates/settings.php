@@ -5,15 +5,30 @@
 <div class="crm-panel-field"> <h3 class="vx_top_head">Settings</h3> </div>
 <form method="post"  id="crm-sales-settings">
                <div class="crm-panel-field">
-                  <label class="crm_text_label">Google reCAPTCHA V3 Client-side Key</label>
+                  <label class="crm_text_label">Google reCAPTCHA V2 Client-side Key</label>
                   <div class="crm-panel-description">Get keys from <a href="https://www.google.com/recaptcha/admin#list" target="_blank">here</a></div>
                   <input type="text" name="cfx_settings[google_public]" placeholder="Google Client-side Key" class="text" value="<?php echo cfx_form::post('google_public',$api)?>" />
                 </div>
                 <div class="crm-panel-field">
-          <label class="crm_text_label">Google reCAPTCHA V3 Server-side Key</label>
+          <label class="crm_text_label">Google reCAPTCHA V2 Server-side Key</label>
           <div class="crm-panel-description">Get keys from <a href="https://www.google.com/recaptcha/admin#list" target="_blank">here</a></div>
           <input type="text" name="cfx_settings[google_private]" placeholder="Google Server-side Key" class="text" value="<?php echo cfx_form::post('google_private',$api)?>" />
                 </div>
+                  <div class="crm-panel-field">
+                <label class="crm_text_label">Google reCAPTCHA Type</label>
+   <select name="cfx_settings[google_type]"  class="text" style="width: 100%;"  autocomplete="off">
+<?php
+    $list=array('v2_check'=>'reCAPTCHA V2 checkbox','v2_inv'=>'reCAPTCHA V2 invisible');
+       foreach($list as $k=>$v){
+           $sel="";
+           if($k == cfx_form::post( 'google_type',$api) )
+           $sel="selected='selected'";
+        echo '<option value="'.$k.'" '.$sel.'>'.$v.'</option>';
+       }
+?>
+              </select>
+              </div>
+              
                   <div class="crm-panel-field">
           <label class="crm_text_label">Email Notification</label>
           <div class="crm-panel-description">Enter new separated email addresses.If email notifications are enabled in form settings an email will be sent to these email addresses</div>
