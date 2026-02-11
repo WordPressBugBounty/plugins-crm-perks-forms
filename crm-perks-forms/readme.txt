@@ -2,7 +2,7 @@
 Contributors: crmperks, sbazzi
 Tags: contact form, form builder, best form builder, free form builder, visual form builder
 Requires at least: 3.8
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 1.1.7
 Version: 1.1.7
 Requires PHP: 5.3
