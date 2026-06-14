@@ -2,7 +2,7 @@
 /**
 * Plugin Name: CRM Perks Forms
 * Description: Create beautiful contact forms , popups with floating buttons.
-* Version: 1.1.7
+* Version: 1.1.8
 * Requires at least: 3.8
 * Author URI: https://www.crmperks.com
 * Plugin URI: https://www.crmperks.com/plugins/contact-form-plugins/crm-perks-forms/
@@ -10,7 +10,7 @@
 */
 
 class cfx_form {
-    public static $version='1.1.7';
+    public static $version='1.1.8';
     public static $page='cfx-form';
     public static $id='cfx_form';
     public static $upload_folder = 'crm_perks_uploads';
@@ -376,11 +376,11 @@ $data_class.=" ".$v['field_class'];
 
  $str.=$auto_complete;   
 
- $str.='  style="width: 100%; height:'.$v['text_height'].';"  '.$v['req'].'>'.$v['default'].'</textarea>';
+ $str.='  style="width: 100%; height:'.$v['text_height'].';"  '.$v['req'].'>'.esc_attr($v['default']).'</textarea>';
  
  break;
  case"date": 
- $str.='<input type="text" '.$err_msg.'  id="'.$field_id.'" autocomplete="off"  data-name="'.$v['id'].'" placeholder="'.$v['hint'].'" class="cfx_input cfx_date_picker  '.$data_class.'" value="'.$v['default'].'"';
+ $str.='<input type="text" '.$err_msg.'  id="'.$field_id.'" autocomplete="off"  data-name="'.$v['id'].'" placeholder="'.esc_attr($v['hint']).'" class="cfx_input cfx_date_picker  '.$data_class.'" value="'.esc_attr($v['default']).'"';
 if(isset($v['max'])){
  $str.=' maxlength="'.$v['max'].'"';
 }
@@ -561,7 +561,7 @@ $str.='</div>';
    }
   
  $str.='<input type="'.$data_type.'" id="'.$field_id.'" '.$err_msg.' data-name="'.$v['id'].'"';
- $str.=' class="'.$data_class.'" value="'.$v['default'].'" ';
+ $str.=' class="'.$data_class.'" value="'.esc_attr($v['default']).'" ';
 if($name != ""){
  $str.=' name="'.$v['field_name'].'"';
 }
