@@ -1233,9 +1233,8 @@ var reset_btn=true;
    try{ grecaptcha.reset(cap_id);}catch(e){}
   }
    /// jQuery(".crm_alert").hide();
-    var re={};
-    try{re=jQuery.parseJSON(res);}catch(e){};
-    
+    var re={}; re=res;
+   // try{re=jQuery.parseJSON(res);}catch(e){};
    var re_new=form.triggerHandler('cfx_form_after_submit',re);
    if(re_new){ re=re_new; }
 if(!re || typeof re != 'object' ){ re={'status':'error','msg':'Unknow Error'}; }
@@ -2812,7 +2811,7 @@ $form_id=intval(cfx_form::post('form_id'));
 $return='yes';
 if(!empty($_REQUEST['vx_is_ajax'])){
 $return='';    
-}
+} 
 //get form setting
 $form=cfx_form::get_form($form_id);
 $options=$form['settings']; 
@@ -2846,7 +2845,7 @@ if($options == null || !isset($_REQUEST['fixed']) || !is_array($_REQUEST['fixed'
     if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
+    wp_send_json($response);
       die('');
     }   
 }
@@ -2865,8 +2864,8 @@ $google=array("response"=>cfx_form::post('g-recaptcha-response'),"remoteip"=>$_S
        if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
-      die();
+    wp_send_json($response);
+die();
     } 
 } }else{ 
         if(!session_id()){ @session_start(); }
@@ -2877,12 +2876,14 @@ $google=array("response"=>cfx_form::post('g-recaptcha-response'),"remoteip"=>$_S
             if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
+    wp_send_json($response);
       die();
     }   
      }
        unset($_SESSION['captcha']);    
-} }
+} 
+
+}
 
   //check form limit, show warning if limit exceeded    
        $cookie_name='cfx_form_'.$form_id;
@@ -2894,7 +2895,7 @@ $google=array("response"=>cfx_form::post('g-recaptcha-response'),"remoteip"=>$_S
         if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
+     wp_send_json($response);
       die();
     }    
      }
@@ -2907,7 +2908,7 @@ $google=array("response"=>cfx_form::post('g-recaptcha-response'),"remoteip"=>$_S
         if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
+     wp_send_json($response);
       die();
     }    
              }   
@@ -2942,7 +2943,7 @@ self::$response['step']=$current_step=$submit;
             if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
+     wp_send_json($response);
       die();
     }
        
@@ -2964,7 +2965,7 @@ $response=$this->res_out($response,$fixed,$entry_id,$form);
             if($return == "yes"){
    return $response;     
     }else{ 
-    echo json_encode($response);
+     wp_send_json($response);
       die();
     }
 }
@@ -2975,7 +2976,7 @@ if(!empty(self::$response['step']) && is_numeric(self::$response['step'])){
  $response=$this->res_out($response,$fixed,$entry_id,$form);
 if($return == "yes"){ return $response;     
 }else{ 
-    echo json_encode($response); die(); }   
+     json_encode($response); die(); }   
 }
 
 
@@ -3181,7 +3182,7 @@ if($return == "yes"){
 return $response;    
 }else{
     
-    echo json_encode($response);
+    wp_send_json($response);
 die();
 } 
 }
@@ -3294,7 +3295,8 @@ $upload_path=$upload_dir['basedir'].'/'.$base_folder.'/'.$folder;
 $dir=wp_mkdir_p($upload_path);        
 
   foreach($_FILES['fixed']['tmp_name'] as $k=>$file){
-      if(empty($file)){continue;}
+      if(empty($file) || ! isset( $fields[$k] )){continue;}
+      $k=sanitize_key($k);
  //
  $name=!empty($_FILES['fixed']['name'][$k]) ? $_FILES['fixed']['name'][$k] : '';
  if(!empty($fields[$k]['exts'])){

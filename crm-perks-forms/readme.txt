@@ -3,8 +3,8 @@ Contributors: crmperks, sbazzi
 Tags: contact form, form builder, best form builder, free form builder, visual form builder
 Requires at least: 3.8
 Tested up to: 7.1
-Stable tag: 1.1.8
-Version: 1.1.8
+Stable tag: 1.1.9
+Version: 1.1.9
 Requires PHP: 5.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,7 +13,7 @@ Create beautiful contact forms and popups with floating buttons.
 
 == Description ==
 
-CRM Perks Forms is a lightweight and highly optimized Wordpress Form Builder. Create beautiful contact forms and popups without hiring a developer or designer. Learn more at [crmperks.com](https://www.crmperks.com/plugins/contact-form-plugins/crm-perks-forms/?utm_source=wordpress&utm_medium=directory&utm_campaign=readme) [](http://coderisk.com/wp/plugin/crm-perks-forms/RIPS-3ctgd1DLHq)
+CRM Perks Forms is a lightweight and highly optimized Wordpress Form Builder. Create beautiful contact forms and popups without hiring a developer or designer. Learn more at [crmperks.com](https://www.crmperks.com/plugins/contact-form-plugins/crm-perks-forms/?utm_source=wordpress&utm_medium=directory&utm_campaign=readme)
 
 = Free Form Builder =
 
@@ -223,6 +223,9 @@ You can easily move your forms created in contact form 7 to CRM Perks forms usin
 
 
 == Changelog ==
+
+= 1.1.9 =
+* fixed "XSS vulnerability" issue.
 
 = 1.1.8 =
 * fixed "XSS issue with url parameters" issue.
